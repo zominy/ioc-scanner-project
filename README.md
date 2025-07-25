@@ -1,6 +1,6 @@
 # IOC Scanner Project 🐍🔍
 
-**Contributors:** Max Z, Michal T, Uzair A
+**Creators & Developers:** Max Z, Michal T, Uzair A
 
 ---
 
@@ -60,4 +60,82 @@ ioc-scanner-project/
 ```bash
 git clone https://github.com/zominy/ioc-scanner-project.git
 cd ioc-scanner-project
+```
+2. Create a virtual environment:
 
+```bash
+python -m venv venv
+source venv/bin/activate       # On Windows: venv\Scripts\activate
+```
+3. Install required packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Usage 🛠
+Run the scanner via the main script:
+
+```bash
+python main.py --ioc-file sample_iocs.csv --scan-folder sample_files/
+```
+- `--ioc-file`: path to your CSV file with IOC hashes (expects a column named sha256)
+- `--scan-folder`: path to folder to scan for matching files
+
+The scanner will generate a report of any matches found.
+
+---
+
+## 🧪 Running Tests
+
+Make sure pytest is installed (add to requirements.txt):
+
+```bash
+pip install pytest
+```
+Run tests with:
+
+```bash
+pytest tests/
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! To collaborate with Max Zominy, Michal T, and Uzair A:
+
+Fork the repository.
+
+Create a feature branch:
+
+```bash
+git checkout -b feature/your-feature-name
+```
+Commit your changes with clear messages:
+
+```bash
+git commit -m "Add detailed scanning logic"
+```
+
+Push your branch and open a pull request for review.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 📬 Contact & Support
+
+For questions or support, reach out to the contributors:
+
+Max Zominy: [GitHub](https://github.com/zominy) or [LinkedIn](https://www.linkedin.com/in/max-zominy-85ba92310/)
+
+Michal T: YET TO ADD
+
+Uzair A: YET TO ADD
