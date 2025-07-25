@@ -126,7 +126,7 @@ Push your branch and open a pull request for review.
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](https://mit-license.org/).
 
 ---
 
@@ -136,6 +136,6 @@ For questions or support, reach out to the contributors:
 
 Max Zominy: [GitHub](https://github.com/zominy) or [LinkedIn](https://www.linkedin.com/in/max-zominy-85ba92310/)
 
-Michal T: YET TO ADD
+Michal Twardowski: YET TO ADD
 
-Uzair A: YET TO ADD
+Uzair Ali: YET TO ADD
