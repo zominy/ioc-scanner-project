@@ -1,6 +1,6 @@
 # IOC Scanner Project 🐍🔍
 
-**Creators & Developers:** Max Z, Michal T, Uzair A
+**Creators & Developers:** Max Z (Lead), Michal T, Uzair A
 
 ---
 
