@@ -1,6 +1,6 @@
 # IOC Scanner Project 🐍🔍
 
-**Technical Lead and Software Development Team:** Max Z (Lead), Michal T, Uzair A
+**Project Lead and Developer, supported by two Co-Developers:** Max Z (Lead), Michal T, Uzair A
 
 ---
 
