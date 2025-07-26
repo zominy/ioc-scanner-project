@@ -41,7 +41,7 @@ ioc-scanner-project/
 │ ├── benign.txt # Safe example file
 │ ├── infected_sample.exe # File matching IOC hash for testing
 │
-├── meeting_notes/ # Project discussions and notes
+├── meetings/ # Project discussions and notes
 │
 ├── main.py # Main entry point script
 ├── requirements.txt # Python dependencies
