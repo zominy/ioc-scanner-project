@@ -6,17 +6,21 @@
 
 ## 🚀 Project Overview
 
-The IOC Scanner Project is a Python-based tool designed to scan directories for files that match known Indicators of Compromise (IOCs) based on SHA256 hashes. This helps security analysts and researchers quickly identify potentially malicious files within large data sets or file systems.
+The IOC Scanner Project is a Python-based security tool designed to efficiently scan directories for files matching known Indicators of Compromise (IOCs) via SHA256 hashes. This solution empowers security analysts and researchers to quickly identify potentially malicious files across large datasets or file systems, improving threat detection workflows.
 
 ---
 
 ## 🔍 What It Does
 
-- Loads IOC hashes from a CSV file.
-- Recursively scans a specified folder.
-- Calculates SHA256 hashes of each file efficiently using memory-friendly chunking.
-- Compares file hashes against known IOC hashes.
-- Generates detailed reports in TXT or CSV formats listing matched files.
+- Load IOC hashes from standardised CSV files.
+
+- Recursively traverse directories and subdirectories for comprehensive scanning.
+
+- Compute SHA256 hashes for files using memory-efficient chunked reads.
+
+- Compare computed hashes against the IOC set for rapid detection.
+
+- Generate clear, customisable reports in TXT or CSV formats, detailing all matched files.
 
 ---
 
@@ -25,30 +29,32 @@ The IOC Scanner Project is a Python-based tool designed to scan directories for 
 ```
 ioc-scanner-project/
 ├── ioc_scanner/
-│ ├── init.py # Package marker
-│ ├── ioc_loader.py # Load IOC hashes from CSV
-│ ├── hash_utils.py # SHA256 hashing utilities
-│ ├── scanner.py # Folder scanning and matching logic
-│ ├── report.py # Report generation in TXT/CSV
+│   ├── __init__.py           # Package initialiser
+│   ├── ioc_loader.py         # Load IOC hashes from CSV files
+│   ├── hash_utils.py         # SHA256 hashing utilities
+│   ├── scanner.py            # Directory scanning and IOC matching logic
+│   ├── report.py             # Report generation (TXT/CSV)
+│   ├── metadata_collector.py # Collects file metadata for analysis
+│   ├── extension_filter.py   # Filters files by extension for targeted scanning
 │
 ├── tests/
-│ ├── test_ioc_loader.py # Unit tests for IOC loader
-│ ├── test_hash_utils.py # Tests for SHA256 hashing
-│ ├── test_scanner.py # Tests scanning logic
-│ ├── test_report.py # Tests report creation
+│   ├── test_ioc_loader.py    # Unit tests for IOC loader
+│   ├── test_hash_utils.py    # Unit tests for hashing functions
+│   ├── test_scanner.py       # Unit tests for scanning logic
+│   ├── test_report.py        # Unit tests for report generation
 │
 ├── sample_files/
-│ ├── benign.txt # Safe example file
-│ ├── infected_sample.exe # File matching IOC hash for testing
+│   ├── benign.txt            # Safe example file
+│   ├── infected_sample.exe   # Sample file matching IOC hash for testing
 │
-├── meetings/ # Project discussions and notes
+├── meetings/                 # Project meeting notes and discussions
 │
-├── main.py # Main entry point script
-├── requirements.txt # Python dependencies
-├── sample_iocs.csv # Sample IOC hashes CSV
-├── README.md # This file
-├── .gitignore # Files and folders ignored by Git
-└── LICENSE # MIT License file
+├── main.py                   # Main script to run the scanner end-to-end
+├── requirements.txt          # Python dependencies list
+├── sample_iocs.csv           # Sample IOC hashes for testing
+├── README.md                 # Project documentation and overview
+├── .gitignore                # Git ignore rules
+└── LICENSE                   # MIT License
 ```
 
 ---
