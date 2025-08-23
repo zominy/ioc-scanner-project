@@ -1,23 +1,35 @@
-# (Notes from Max) This file reads a .csv file that contains one known malicious SHA256 hash per row and stores those hashes in a set.
+# Uzair Ali   23/08/2025   Version 1.0
+import csv
+import os
 
-# What the Function Does:
-# Define a function (e.g., load_iocs) that accepts the path to the IOC file (a .csv).
 
-# Inside the function:
+def load_iocs(path: str) -> set[str]:       #this function takes the file path and returns a set of strings
+    """
+    Load SHA256 IOCs from a CSV file into a set.
 
-# Open the file using the CSV reader.
+    Args:
+        path (str): Path to the CSV file containing a 'sha256' column.  # these are docstring comments to appear with the help(load_iocs)
 
-# Read each row.
+    Returns:
+        set[str]: A set of normalized SHA256 hashes.
+    """
+    hashes = set()
 
-# From each row, extract the value under the column labeled sha256.
+    with open(path, newline="", encoding="utf-8") as csvfile:       # this openms the path specific to csv files and uses specific file encoding
+        reader = csv.DictReader(csvfile)  # csv.DictReader reads rows as dictionaries by the colum headers
+        for row in reader:
+            # this extracts the value under the sha256 column
+            value = row.get("sha256")       #this grabs the hash directly from the sha256 column
+            if value:
+                cleaned = value.strip().lower()  # this removes newlines and makes everything lowercase
+                if cleaned:  # this skips empty rows
+                    hashes.add(cleaned)  # this stores each hash in a set
 
-# Strip any extra spaces or line breaks from the value.
+    return hashes       #this function gives us back the 'set' with our values
 
-# Add it to a set.
+if __name__ == "__main__":      #calling the function
+    script_dir = os.path.dirname(os.path.abspath(__file__))     #this ensures that you know which folder the script is in, had some trouble with this
+    csv_path = os.path.join(script_dir, "sample_iocs.csv")      #this helps locate the path of the csv file
 
-# Return the set of hashes.
-
-# Why:
-# Using a set makes it fast to compare later (O(1) lookup time).
-
-# Handles CSVs properly, so it works with real-world IOC files.
+    sha256_set = load_iocs(csv_path)    #this actually calls the function
+    print(sha256_set)           #and this displays the function
