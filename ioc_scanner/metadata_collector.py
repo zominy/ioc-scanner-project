@@ -1,4 +1,4 @@
-# Max Zominy   06/09/2025   Version 1.0
+# Max Zominy   13/09/2025   Version 1.0
 # metadata_collector.py
 # Purpose: Collect detailed metadata about files that matched IOCs
 
