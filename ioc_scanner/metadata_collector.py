@@ -1,31 +1,69 @@
-# Purpose:
-# After identifying files with IOC-matching hashes, extract detailed metadata to enrich your report (e.g., timestamps, size, owner). This gives forensic value for investigations.
+# Max Zominy   06/09/2025   Version 1.0
+# metadata_collector.py
+# Purpose: Collect detailed metadata about files that matched IOCs
 
-# What the Function Does:
-# Define a function (e.g., collect_file_metadata) that accepts a list of file paths (from matches).
+import os
+import pwd  # Only works on Unix-like systems; optional for Windows, see note
+from datetime import datetime
+from typing import List, Dict, Tuple
 
-# Inside the function:
+def collect_file_metadata(matched_files: List[Tuple[str, str]]) -> List[Dict[str, str]]:
+    """
+    Collect metadata for each matched file.
 
-# For each file path:
+    Args:
+        matched_files (List[Tuple[str, str]]): List of tuples (file_path, matching_hash)
 
-# Get:
+    Returns:
+        List[Dict[str, str]]: List of dictionaries with file path, hash, and metadata
+    """
 
-# File size (in bytes)
+    metadata_list = []
 
-# Creation time
+    for file_path, file_hash in matched_files:
+        try:
+            # Get basic stats
+            stats = os.stat(file_path)
 
-# Last modification time
+            # File size in bytes
+            size = stats.st_size
 
-# File permissions
+            # Creation and modification times (formatted)
+            created_time = datetime.fromtimestamp(stats.st_ctime).strftime("%Y-%m-%d %H:%M:%S")
+            modified_time = datetime.fromtimestamp(stats.st_mtime).strftime("%Y-%m-%d %H:%M:%S")
 
-# (Optional) Owner UID or username
+            # File permissions
+            permissions = oct(stats.st_mode)[-3:]  # Simple rwx format
 
-# Format times to human-readable strings.
+            # Owner username (Unix-only won't work on Windows due to 'pwd' being a Unix command.)
+            try:
+                owner = pwd.getpwuid(stats.st_uid).pw_name
+            except ImportError:
+                owner = "N/A (Windows)"
+            except KeyError:
+                owner = "Unknown"
 
-# Return a list of dictionaries or tuples with:
+            metadata_list.append({
+                "file_path": file_path,
+                "sha256": file_hash,
+                "size_bytes": size,
+                "created_time": created_time,
+                "modified_time": modified_time,
+                "permissions": permissions,
+                "owner": owner
+            })
 
-# File path
+        except Exception as e:
+            # If file cannot be accessed, log with placeholder values
+            metadata_list.append({
+                "file_path": file_path,
+                "sha256": file_hash,
+                "size_bytes": "N/A",
+                "created_time": "N/A",
+                "modified_time": "N/A",
+                "permissions": "N/A",
+                "owner": "N/A",
+                "error": str(e)
+            })
 
-# Hash
-
-# Metadata (size, timestamps, etc.)
+    return metadata_list
