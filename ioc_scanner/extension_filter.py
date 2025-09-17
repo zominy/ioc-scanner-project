@@ -1,31 +1,46 @@
-# (Notes From Max)
+# Uzair Ali   17/09/2025   Version 1.0
 
-#  Purpose:
-# Scan folders for suspicious or unauthorized file extensions, like .exe, .js, .bat, .vbs, .ps1, .dll, etc. Employers love this because it mimics basic threat hunting logic.
+import os
 
-# What the Function Does:
-# Define a function like filter_suspicious_extensions(folder_path, suspicious_extensions).
+def filter_suspicious_extensions(folder_path, suspicious_extensions=None): #Defines our function
+    """
+    Scan a folder recursively for files with suspicious extensions.
+    """
+    if suspicious_extensions is None:
+        suspicious_extensions = ['.exe', '.js', '.bat', '.vbs', '.ps1', '.dll'] #Selects which ecnention types we can select to search for
 
-# Inside the function:
+    suspicious_extensions = [ext.lower() for ext in suspicious_extensions]
+    flagged_files = []              #Creates a list of files flagged with the selected extention
 
-# Walk the folder recursively (like in scanner.py).
+    for root, _, files in os.walk(folder_path):         #Goes straight to the root directory to be able to seach through all files on system
+        for file in files:
+            _, ext = os.path.splitext(file)
+            if ext.lower() in suspicious_extensions:
+                full_path = os.path.join(root, file)
+                flagged_files.append((full_path, ext.lower()))
 
-# For each file:
+    return flagged_files
 
-# Get the file extension (os.path.splitext).
 
-# If it matches one in a provided suspicious list:
+if __name__ == "__main__":                          #Creating the main interaction function
+    folder_to_scan = input("Enter the folder path to scan: ").strip()       #Insert the directory to search
+    
+    
+    custom_exts = input(                                # Ask user which extensions to look for
+        "Enter file extensions to flag (comma-separated, e.g. .exe,.js,.dll), "
+        "or press Enter to use defaults: "
+    ).strip()
 
-# Store the file path and extension.
+    if custom_exts:
+        suspicious_list = [ext.strip() for ext in custom_exts.split(",")]           #Allows the selection of specific extentions
+    else:
+        suspicious_list = None  # use defaults
 
-# Return a list of flagged files.
+    results = filter_suspicious_extensions(folder_to_scan, suspicious_list)
 
-# Why:
-
-# Very easy to understand and extend.
-
-# Fits naturally alongside hash scanning.
-
-# Demonstrates awareness of malware techniques (e.g., rogue scripts dropped in temp folders).
-
-# Lets the user customize the extension list, showing thoughtful design.
+    if results:
+        print("\nSuspicious files found:")      #Print of results if found
+        for path, ext in results:
+            print(f" - {path} ({ext})")
+    else:
+        print("\nNo suspicious files detected.")            #Print a no results found if nothing is found
