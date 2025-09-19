@@ -1,6 +1,6 @@
 # IOC Scanner Project 🐍🔍
 
-**Project Lead and Developer, supported by two Co-Developers:** Max Z (Lead), Michal T, Uzair A.
+**Project Lead and Developer, supported by three Co-Developers:** Max Z (Lead), Michal T, Uzair A, Sofiane L (NEW).
 
 ---
 
@@ -145,3 +145,4 @@ Max Zominy: [GitHub](https://github.com/zominy) or [LinkedIn](https://www.linked
 Michal Twardowski: YET TO ADD
 
 Uzair Ali: YET TO ADD
+
