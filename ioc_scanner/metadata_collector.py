@@ -1,69 +1,40 @@
-# Max Zominy   13/09/2025   Version 1.0
+# Max Zominy   13/09/2025   Version 1.1
 # metadata_collector.py
 # Purpose: Collect detailed metadata about files that matched IOCs
 
 import os
-import pwd  # Only works on Unix-like systems; optional for Windows, see note
-from datetime import datetime
-from typing import List, Dict, Tuple
+import platform
+import datetime
 
-def collect_file_metadata(matched_files: List[Tuple[str, str]]) -> List[Dict[str, str]]:
-    """
-    Collect metadata for each matched file.
+# Try to import pwd safely (only on Unix)
+try:
+    import pwd
+except ImportError:
+    pwd = None  # Windows systems don't have this module, would halt the program before now is excepted.
 
-    Args:
-        matched_files (List[Tuple[str, str]]): List of tuples (file_path, matching_hash)
 
-    Returns:
-        List[Dict[str, str]]: List of dictionaries with file path, hash, and metadata
-    """
-
-    metadata_list = []
-
-    for file_path, file_hash in matched_files:
+def collect_file_metadata(file_paths):
+    """Collects metadata (size, modified time, owner if available) for matched files."""
+    metadata = {}
+    for path in file_paths:
         try:
-            # Get basic stats
-            stats = os.stat(file_path)
-
-            # File size in bytes
-            size = stats.st_size
-
-            # Creation and modification times (formatted)
-            created_time = datetime.fromtimestamp(stats.st_ctime).strftime("%Y-%m-%d %H:%M:%S")
-            modified_time = datetime.fromtimestamp(stats.st_mtime).strftime("%Y-%m-%d %H:%M:%S")
-
-            # File permissions
-            permissions = oct(stats.st_mode)[-3:]  # Simple rwx format
-
-            # Owner username (Unix-only won't work on Windows due to 'pwd' being a Unix command.)
-            try:
+            stats = os.stat(path)
+            owner = None
+            if pwd:
+                # Unix-like: get username
                 owner = pwd.getpwuid(stats.st_uid).pw_name
-            except ImportError:
-                owner = "N/A (Windows)"
-            except KeyError:
-                owner = "Unknown"
+            else:
+                # Windows fallback: use environment username
+                owner = os.getenv('USERNAME', 'Unknown')
 
-            metadata_list.append({
-                "file_path": file_path,
-                "sha256": file_hash,
-                "size_bytes": size,
-                "created_time": created_time,
-                "modified_time": modified_time,
-                "permissions": permissions,
-                "owner": owner
-            })
-
+            metadata[path] = {
+                'size': stats.st_size,
+                'modified': datetime.datetime.fromtimestamp(stats.st_mtime).isoformat(),
+                'owner': owner,
+                'system': platform.system()
+            }
         except Exception as e:
-            # If file cannot be accessed, log with placeholder values
-            metadata_list.append({
-                "file_path": file_path,
-                "sha256": file_hash,
-                "size_bytes": "N/A",
-                "created_time": "N/A",
-                "modified_time": "N/A",
-                "permissions": "N/A",
-                "owner": "N/A",
-                "error": str(e)
-            })
+            metadata[path] = {'error': str(e)}
+    return metadata
 
-    return metadata_list
+# Reason for update: Would not reliably work on Windows, or MacOS.

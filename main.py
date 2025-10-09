@@ -1,6 +1,6 @@
 # main.py
 # IOC Scanner - Main Orchestrator
-# Version 1.0 | 09/10/2025
+# Version 1.1 | 09/10/2025
 # Written collectively
 # Purpose:
 # This script brings together all project modules to scan a folder for
@@ -17,6 +17,11 @@ from ioc_scanner.report import write_report
 
 def main():
     print("=== IOC Scanner ===\n")
+    print("=== Written by ===\n")
+    print("=== Max Zominy ===")
+    print("=== Uzair Ali ===")
+    print("=== Sofiane Laleg ===")
+    print("=== Michal Twardowski ===\n")
 
     # Step 1 - Load the IOC list (SHA256 hashes) from CSV
     ioc_file = "sample_iocs.csv"
